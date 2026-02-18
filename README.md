@@ -90,6 +90,7 @@ A strong addition to a professional GitHub portfolio.
 
 # 🛠️ Common Errors Encountered & How They Were Resolved
 *A technical log of issues discovered during development and how each was fixed.*
+
 This project was built using a test-driven development (TDD) workflow. Each error below represents a real debugging moment that strengthened the final design.
 
 ---
@@ -97,6 +98,7 @@ This project was built using a test-driven development (TDD) workflow. Each erro
 🔹 1. ```ModuleNotFoundError: No module named 'src.validator'```
 
 **Cause**
+
 Tests attempted to import:
 ```python
 from src.validator import validate_csv
@@ -106,6 +108,7 @@ But the actual file was named:
 data_validator.py
 ```
 **Solution**
+
 Updated the import:
 ```python
 from src.data_validator import validate_csv
@@ -114,9 +117,11 @@ from src.data_validator import validate_csv
 🔹 2. ```TypeError: 'NoneType' objecy is not subscriptable'```
 
 **Cause**
+
 ```validate_csv()``` printed output but returned nothing, so Python returned ```None```.
 
 **Solution**
+
 Added a structured return:
 ```python
 return {
@@ -129,9 +134,11 @@ return {
 **🔹 3. Missing Required Field Not Detected** 
 
 **Cause**
+
 the test accidentally used a vaild row.
 
 **Solution**
+
 Corrected the test data:
 ```code
 ,30,a@b.com,USA
@@ -141,9 +148,11 @@ The validator already handled missing fields correctly.
 **🔹 4. Negative Age not Flagged as Invaild** 
 
 **Cause**
+
 ```int(-5)``` is valid Python, so the validator accepted negative ages.
 
 **Solution**
+
 Added a negative-age check:
 ```python
 age_value = int(row["age"])
@@ -154,9 +163,11 @@ if age_value < 0:
 **🔹 5. Invalid Email Format Not Detected**
 
 **Cause**
+
 Email validation logic didn't exist yet.
 
 **Solution**
+
 Added a simple format check:
 ```python
 if "@" not in email_value:
@@ -166,9 +177,11 @@ if "@" not in email_value:
 **🔹 6. Empty File Not Recognized**
 
 **Cause**
+
 An empty CSV produced zero rows and zero errors.
 
 **Solution**
+
 Added an early-exit check:
 ```python
 content = file.read().strip()
@@ -179,3 +192,4 @@ if not content:
          "errors": ["File is empty"]
 }
 ```
+
